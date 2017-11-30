@@ -28,6 +28,11 @@ namespace lab6
                 Y = y;
                 Z = z;
             }
+
+            public point3d clone()
+            {
+                return (point3d)this.MemberwiseClone();
+            }
         }
 
         class edge
@@ -38,8 +43,8 @@ namespace lab6
 
             public edge(Graphics g, PictureBox pb, point3d p1, point3d p2)
             {
-                this.p1 = new point3d(p1.X, p1.Y, p1.Z);
-                this.p2 = new point3d(p2.X, p2.Y, p2.Z);
+                this.p1 = p1.clone();
+                this.p2 = p2.clone();
                 this.g = g;
                 this.pb = pb;
             }
@@ -55,18 +60,146 @@ namespace lab6
             {
                 List<List<double>> trans_mat = new List<List<double>>(4);
                 for (int i = 0; i < 4; i++)
-                    trans_mat[i] = new List<double>(4);
+                    trans_mat.Add(new List<double>(4));
 
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 4; j++)
-                        trans_mat[i][j] = i == j ? 1 : 0;
+                        if (i == j)
+                            trans_mat[i].Add(1);
+                        else
+                            trans_mat[i].Add(0);
 
-                trans_mat[0][3] = tx;
-                trans_mat[1][3] = ty;
-                trans_mat[2][3] = tz;
+                trans_mat[3][0] = tx;
+                trans_mat[3][1] = ty;
+                trans_mat[3][2] = tz;
 
                 List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, trans_mat);
-                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, trans_mat); // test trans_mat
+                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, trans_mat);
+
+                p1.X = (int)p1_new_cords[0];
+                p1.Y = (int)p1_new_cords[1];
+                p1.Z = (int)p1_new_cords[2];
+                p2.X = (int)p2_new_cords[0];
+                p2.Y = (int)p2_new_cords[1];
+                p2.Z = (int)p2_new_cords[2];
+            }
+
+            public void sub_rotateX(double angle)
+            {
+                double cos = Math.Cos(angle);
+                double sin = Math.Sin(angle);
+
+                // Getting identity matrix
+                List<List<double>> rotateX_mat = new List<List<double>>(4);
+                for (int i = 0; i < 4; i++)
+                    rotateX_mat.Add(new List<double>(4));
+
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
+                        if (i == j)
+                            rotateX_mat[i].Add(1);
+                        else
+                            rotateX_mat[i].Add(0);
+
+                rotateX_mat[1][1] = cos;
+                rotateX_mat[1][2] = -sin;
+                rotateX_mat[2][1] = sin;
+                rotateX_mat[2][2] = cos;
+
+                List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, rotateX_mat);
+                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, rotateX_mat);
+
+                p1.X = (int)p1_new_cords[0];
+                p1.Y = (int)p1_new_cords[1];
+                p1.Z = (int)p1_new_cords[2];
+                p2.X = (int)p2_new_cords[0];
+                p2.Y = (int)p2_new_cords[1];
+                p2.Z = (int)p2_new_cords[2];
+            }
+
+            public void sub_rotateY(double angle)
+            {
+                double cos = Math.Cos(angle);
+                double sin = Math.Sin(angle);
+
+                // Getting identity matrix
+                List<List<double>> rotateY_mat = new List<List<double>>(4);
+                for (int i = 0; i < 4; i++)
+                    rotateY_mat.Add(new List<double>(4));
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
+                        if (i == j)
+                            rotateY_mat[i].Add(1);
+                        else
+                            rotateY_mat[i].Add(0);
+
+                rotateY_mat[0][0] = cos;
+                rotateY_mat[0][2] = sin;
+                rotateY_mat[2][0] = -sin;
+                rotateY_mat[2][2] = cos;
+
+                List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, rotateY_mat);
+                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, rotateY_mat);
+
+                p1.X = (int)p1_new_cords[0];
+                p1.Y = (int)p1_new_cords[1];
+                p1.Z = (int)p1_new_cords[2];
+                p2.X = (int)p2_new_cords[0];
+                p2.Y = (int)p2_new_cords[1];
+                p2.Z = (int)p2_new_cords[2];
+            }
+
+            public void sub_rotateZ(double angle)
+            {
+                double cos = Math.Cos(angle);
+                double sin = Math.Sin(angle);
+
+                // Getting identity matrix
+                List<List<double>> rotateZ_mat = new List<List<double>>(4);
+                for (int i = 0; i < 4; i++)
+                    rotateZ_mat.Add(new List<double>(4));
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
+                        if (i == j)
+                            rotateZ_mat[i].Add(1);
+                        else
+                            rotateZ_mat[i].Add(0);
+
+                rotateZ_mat[0][0] = cos;
+                rotateZ_mat[0][1] = -sin;
+                rotateZ_mat[1][0] = sin;
+                rotateZ_mat[1][1] = cos;
+
+                List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, rotateZ_mat);
+                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, rotateZ_mat);
+
+                p1.X = (int)p1_new_cords[0];
+                p1.Y = (int)p1_new_cords[1];
+                p1.Z = (int)p1_new_cords[2];
+                p2.X = (int)p2_new_cords[0];
+                p2.Y = (int)p2_new_cords[1];
+                p2.Z = (int)p2_new_cords[2];
+            }
+
+            public void sub_scale(double sx, double sy, double sz)
+            {
+                // Getting identity matrix
+                List<List<double>> scale_mat = new List<List<double>>(4);
+                for (int i = 0; i < 4; i++)
+                    scale_mat.Add(new List<double>(4));
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 4; j++)
+                        if (i == j)
+                            scale_mat[i].Add(1);
+                        else
+                            scale_mat[i].Add(0);
+
+                scale_mat[0][0] = sx;
+                scale_mat[1][1] = sy;
+                scale_mat[2][2] = sz;
+
+                List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, scale_mat);
+                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, scale_mat);
 
                 p1.X = (int)p1_new_cords[0];
                 p1.Y = (int)p1_new_cords[1];
@@ -79,7 +212,7 @@ namespace lab6
 
         class polygon
         {
-            private List<edge> le;
+            public List<edge> le;
 
             public polygon()
             {
@@ -95,11 +228,6 @@ namespace lab6
             {
                 foreach(edge e in le)
                     e.draw();
-            }
-
-            public List<edge> get_edges()
-            {
-                return le;
             }
         }
 
@@ -126,11 +254,36 @@ namespace lab6
             public void translate(int tx, int ty, int tz)
             {
                 foreach(polygon p in lp)
-                {
-                    List<edge> edges_to_translate = p.get_edges();
-                    foreach (edge e in edges_to_translate)
+                    foreach (edge e in p.le)
                         e.sub_trans(tx, ty, tz);
-                }
+            }
+
+            public void rotateX(double angle)
+            {
+                foreach (polygon p in lp)
+                    foreach (edge e in p.le)
+                        e.sub_rotateX(angle);
+            }
+
+            public void rotateY(double angle)
+            {
+                foreach (polygon p in lp)
+                    foreach (edge e in p.le)
+                        e.sub_rotateY(angle);
+            }
+
+            public void rotateZ(double angle)
+            {
+                foreach (polygon p in lp)
+                    foreach (edge e in p.le)
+                        e.sub_rotateZ(angle);
+            }
+
+            public void scale(double sx, double sy, double sz)
+            {
+                foreach (polygon p in lp)
+                    foreach (edge e in p.le)
+                        e.sub_scale(sx, sy, sz);
             }
         }
 
@@ -177,7 +330,7 @@ namespace lab6
             res.add(plg4);
             return res;
         }
-
+        
         static polyhedron hexahedron(Graphics g, PictureBox pb, int size)
         {
             point3d p1 = new point3d(-size / 2, -size / 2, -size / 2);
@@ -321,15 +474,12 @@ namespace lab6
             res.add(plg8);
             return res;
         }
-
+        
         // в будущем здесь будут икосаэдр и додекаэдр
 
-        static List<double> mats_mult(List<double> prev_cords, List<List<double>> aff_mat) // hueta?
+        static List<double> mats_mult(List<double> prev_cords, List<List<double>> aff_mat)
         {
-            List<double> res = new List<double>(3);
-            res[0] = 0;
-            res[1] = 0;
-            res[2] = 0;
+            List<double> res = new List<double> { 0, 0, 0 };
 
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 3; j++)
@@ -362,8 +512,72 @@ namespace lab6
             else
                 phdrn = octahedron(g, pictureBox1, 300);
 
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button3.Enabled = true;
+            textBox1.Enabled = true;
+            textBox2.Enabled = true;
+            textBox3.Enabled = true;
+            textBox4.Enabled = true;
+            textBox5.Enabled = true;
+            textBox6.Enabled = true;
+            textBox7.Enabled = true;
+            textBox8.Enabled = true;
+            textBox9.Enabled = true;
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
+            textBox7.Clear();
+            textBox8.Clear();
+            textBox9.Clear();
+
             phdrn.draw();
             pictureBox1.Invalidate();
+        }
+
+        private void button1_MouseClick(object sender, MouseEventArgs e)
+        {
+            int tx, ty, tz;
+            if (int.TryParse(textBox1.Text, out tx) && int.TryParse(textBox2.Text, out ty) && int.TryParse(textBox3.Text, out tz))
+            {
+                phdrn.translate(tx, ty, tz);
+                g.Clear(Color.White);
+                phdrn.draw();
+                pictureBox1.Invalidate();
+            }
+        }
+
+        private void button2_MouseClick(object sender, MouseEventArgs e)
+        {
+            int angle;
+
+            if (int.TryParse(textBox4.Text, out angle))
+                phdrn.rotateX(angle);
+
+            if (int.TryParse(textBox5.Text, out angle))
+                phdrn.rotateY(angle);
+
+            if (int.TryParse(textBox6.Text, out angle))
+                phdrn.rotateZ(angle);
+
+            g.Clear(Color.White);
+            phdrn.draw();
+            pictureBox1.Invalidate();
+        }
+
+        private void button3_MouseClick(object sender, MouseEventArgs e)
+        {
+            double mx, my, mz;
+            if (double.TryParse(textBox7.Text, out mx) && double.TryParse(textBox8.Text, out my) && double.TryParse(textBox9.Text, out mz))
+            {
+                phdrn.scale(mx, my, mz);
+                g.Clear(Color.White);
+                phdrn.draw();
+                pictureBox1.Invalidate();
+            }
         }
     }
 }
