@@ -33,7 +33,17 @@ namespace lab6
             {
                 return (point3d)this.MemberwiseClone();
             }
-        }
+
+			public static bool operator ==(point3d p1, point3d p2)
+			{
+				return p1.X == p2.X && p1.Y == p2.Y && p1.Z == p2.Z;
+			}
+
+			public static bool operator !=(point3d p1, point3d p2)
+			{
+				return !(p1 == p2);
+			}
+		}
 
         class edge
         {
@@ -49,7 +59,17 @@ namespace lab6
                 this.pb = pb;
             }
 
-            public void draw()
+			public static bool operator ==(edge e1, edge e2)
+			{
+				return e1.p1 == e2.p1 && e1.p2 == e2.p2;
+			}
+
+			public static bool operator !=(edge e1, edge e2)
+			{
+				return !(e1 == e2);
+			}
+
+			public void draw()
             {
                 int centerX = pb.Width / 2;
                 int centerY = pb.Height/ 2;
@@ -58,17 +78,16 @@ namespace lab6
 
             public void sub_trans(int tx, int ty, int tz)
             {
-                List<List<double>> trans_mat = new List<List<double>>(4);
+				// Getting identity matrix
+				List<List<double>> trans_mat = new List<List<double>>(4);
                 for (int i = 0; i < 4; i++)
                     trans_mat.Add(new List<double>(4));
-
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 4; j++)
                         if (i == j)
                             trans_mat[i].Add(1);
                         else
                             trans_mat[i].Add(0);
-
                 trans_mat[3][0] = tx;
                 trans_mat[3][1] = ty;
                 trans_mat[3][2] = tz;
@@ -210,7 +229,7 @@ namespace lab6
             }
         }
 
-        class polygon
+		class polygon
         {
             public List<edge> le;
 
@@ -234,55 +253,62 @@ namespace lab6
         class polyhedron
         {
             private List<polygon> lp;
+			private List<edge> polygon_edges;
 
             public polyhedron()
             {
                 lp = new List<polygon>();
+				polygon_edges = new List<edge>();
             }
 
             public void add(polygon p)
             {
                 lp.Add(p);
+				foreach (edge e in p.le)
+				{
+					if (!polygon_edges.Contains(e))
+						polygon_edges.Add(e);
+				}
             }
 
             public void draw()
             {
-                foreach (polygon p in lp)
-                    p.draw();
+                foreach (edge e in polygon_edges)
+                    e.draw();
             }
 
             public void translate(int tx, int ty, int tz)
             {
                 foreach(polygon p in lp)
-                    foreach (edge e in p.le)
+                    foreach (edge e in polygon_edges)
                         e.sub_trans(tx, ty, tz);
             }
 
             public void rotateX(double angle)
             {
                 foreach (polygon p in lp)
-                    foreach (edge e in p.le)
+                    foreach (edge e in polygon_edges)
                         e.sub_rotateX(angle);
             }
 
             public void rotateY(double angle)
             {
                 foreach (polygon p in lp)
-                    foreach (edge e in p.le)
+                    foreach (edge e in polygon_edges)
                         e.sub_rotateY(angle);
             }
 
             public void rotateZ(double angle)
             {
                 foreach (polygon p in lp)
-                    foreach (edge e in p.le)
+                    foreach (edge e in polygon_edges)
                         e.sub_rotateZ(angle);
             }
 
             public void scale(double sx, double sy, double sz)
             {
                 foreach (polygon p in lp)
-                    foreach (edge e in p.le)
+                    foreach (edge e in polygon_edges)
                         e.sub_scale(sx, sy, sz);
             }
         }
@@ -579,5 +605,5 @@ namespace lab6
                 pictureBox1.Invalidate();
             }
         }
-    }
+	}
 }

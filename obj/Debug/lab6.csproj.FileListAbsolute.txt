@@ -7,3 +7,12 @@ D:\DZ\lab6\obj\Debug\lab6.Properties.Resources.resources
 D:\DZ\lab6\obj\Debug\lab6.csproj.GenerateResource.Cache
 D:\DZ\lab6\obj\Debug\lab6.exe
 D:\DZ\lab6\obj\Debug\lab6.pdb
+C:\Users\user\graphics-lab6\bin\Debug\lab6.exe.config
+C:\Users\user\graphics-lab6\bin\Debug\lab6.exe
+C:\Users\user\graphics-lab6\bin\Debug\lab6.pdb
+C:\Users\user\graphics-lab6\obj\Debug\lab6.csprojResolveAssemblyReference.cache
+C:\Users\user\graphics-lab6\obj\Debug\lab6.Form1.resources
+C:\Users\user\graphics-lab6\obj\Debug\lab6.Properties.Resources.resources
+C:\Users\user\graphics-lab6\obj\Debug\lab6.csproj.GenerateResource.Cache
+C:\Users\user\graphics-lab6\obj\Debug\lab6.exe
+C:\Users\user\graphics-lab6\obj\Debug\lab6.pdb
