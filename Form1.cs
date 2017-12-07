@@ -18,11 +18,11 @@ namespace lab6
 
         class point3d
         {
-            public int X { get; set; }
-            public int Y { get; set; }
-            public int Z { get; set; }
+            public double X { get; set; }
+            public double Y { get; set; }
+            public double Z { get; set; }
 
-            public point3d(int x, int y, int z)
+            public point3d(double x, double y, double z)
             {
                 X = x;
                 Y = y;
@@ -34,7 +34,7 @@ namespace lab6
                 return (point3d)this.MemberwiseClone();
             }
 
-			public static bool operator ==(point3d p1, point3d p2)
+			public static bool operator ==(point3d p1, point3d p2) // будет ли работать без eps?
 			{
 				return p1.X == p2.X && p1.Y == p2.Y && p1.Z == p2.Z;
 			}
@@ -51,10 +51,10 @@ namespace lab6
             PictureBox pb;
             private point3d p1, p2;
 
-            public edge(Graphics g, PictureBox pb, point3d p1, point3d p2)
+            public edge(Graphics g, PictureBox pb, ref point3d p1, ref point3d p2)
             {
-                this.p1 = p1.clone();
-                this.p2 = p2.clone();
+                this.p1 = p1; // p1.clone();
+                this.p2 = p2; // p2.clone();
                 this.g = g;
                 this.pb = pb;
             }
@@ -73,7 +73,7 @@ namespace lab6
             {
                 int centerX = pb.Width / 2;
                 int centerY = pb.Height/ 2;
-                g.DrawLine(new Pen(Color.Black), p1.X + centerX, p1.Y + centerY, p2.X + centerX, p2.Y + centerY);
+                g.DrawLine(new Pen(Color.Black), (int)p1.X + centerX, (int)p1.Y + centerY, (int)p2.X + centerX, (int)p2.Y + centerY);
             }
 
             public void sub_trans(int tx, int ty, int tz)
@@ -95,12 +95,12 @@ namespace lab6
                 List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, trans_mat);
                 List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, trans_mat);
 
-                p1.X = (int)p1_new_cords[0];
-                p1.Y = (int)p1_new_cords[1];
-                p1.Z = (int)p1_new_cords[2];
-                p2.X = (int)p2_new_cords[0];
-                p2.Y = (int)p2_new_cords[1];
-                p2.Z = (int)p2_new_cords[2];
+                p1.X = p1_new_cords[0];
+                p1.Y = p1_new_cords[1];
+                p1.Z = p1_new_cords[2];
+                p2.X = p2_new_cords[0];
+                p2.Y = p2_new_cords[1];
+                p2.Z = p2_new_cords[2];
             }
 
             public void sub_rotateX(double angle)
@@ -128,12 +128,12 @@ namespace lab6
                 List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, rotateX_mat);
                 List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, rotateX_mat);
 
-                p1.X = (int)p1_new_cords[0];
-                p1.Y = (int)p1_new_cords[1];
-                p1.Z = (int)p1_new_cords[2];
-                p2.X = (int)p2_new_cords[0];
-                p2.Y = (int)p2_new_cords[1];
-                p2.Z = (int)p2_new_cords[2];
+                p1.X = p1_new_cords[0];
+                p1.Y = p1_new_cords[1];
+                p1.Z = p1_new_cords[2];
+                p2.X = p2_new_cords[0];
+                p2.Y = p2_new_cords[1];
+                p2.Z = p2_new_cords[2];
             }
 
             public void sub_rotateY(double angle)
@@ -160,12 +160,12 @@ namespace lab6
                 List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, rotateY_mat);
                 List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, rotateY_mat);
 
-                p1.X = (int)p1_new_cords[0];
-                p1.Y = (int)p1_new_cords[1];
-                p1.Z = (int)p1_new_cords[2];
-                p2.X = (int)p2_new_cords[0];
-                p2.Y = (int)p2_new_cords[1];
-                p2.Z = (int)p2_new_cords[2];
+                p1.X = p1_new_cords[0];
+                p1.Y = p1_new_cords[1];
+                p1.Z = p1_new_cords[2];
+                p2.X = p2_new_cords[0];
+                p2.Y = p2_new_cords[1];
+                p2.Z = p2_new_cords[2];
             }
 
             public void sub_rotateZ(double angle)
@@ -192,12 +192,12 @@ namespace lab6
                 List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, rotateZ_mat);
                 List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, rotateZ_mat);
 
-                p1.X = (int)p1_new_cords[0];
-                p1.Y = (int)p1_new_cords[1];
-                p1.Z = (int)p1_new_cords[2];
-                p2.X = (int)p2_new_cords[0];
-                p2.Y = (int)p2_new_cords[1];
-                p2.Z = (int)p2_new_cords[2];
+                p1.X = p1_new_cords[0];
+                p1.Y = p1_new_cords[1];
+                p1.Z = p1_new_cords[2];
+                p2.X = p2_new_cords[0];
+                p2.Y = p2_new_cords[1];
+                p2.Z = p2_new_cords[2];
             }
 
             public void sub_scale(double sx, double sy, double sz)
@@ -220,12 +220,12 @@ namespace lab6
                 List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, scale_mat);
                 List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, scale_mat);
 
-                p1.X = (int)p1_new_cords[0];
-                p1.Y = (int)p1_new_cords[1];
-                p1.Z = (int)p1_new_cords[2];
-                p2.X = (int)p2_new_cords[0];
-                p2.Y = (int)p2_new_cords[1];
-                p2.Z = (int)p2_new_cords[2];
+                p1.X = p1_new_cords[0];
+                p1.Y = p1_new_cords[1];
+                p1.Z = p1_new_cords[2];
+                p2.X = p2_new_cords[0];
+                p2.Y = p2_new_cords[1];
+                p2.Z = p2_new_cords[2];
             }
         }
 
@@ -265,10 +265,8 @@ namespace lab6
             {
                 lp.Add(p);
 				foreach (edge e in p.le)
-				{
 					if (!polygon_edges.Contains(e))
 						polygon_edges.Add(e);
-				}
             }
 
             public void draw()
@@ -279,37 +277,32 @@ namespace lab6
 
             public void translate(int tx, int ty, int tz)
             {
-                foreach(polygon p in lp)
-                    foreach (edge e in polygon_edges)
-                        e.sub_trans(tx, ty, tz);
+                foreach (edge e in polygon_edges)
+                    e.sub_trans(tx, ty, tz);
             }
 
             public void rotateX(double angle)
             {
-                foreach (polygon p in lp)
-                    foreach (edge e in polygon_edges)
-                        e.sub_rotateX(angle);
+                foreach (edge e in polygon_edges)
+                    e.sub_rotateX(angle);
             }
 
             public void rotateY(double angle)
             {
-                foreach (polygon p in lp)
-                    foreach (edge e in polygon_edges)
-                        e.sub_rotateY(angle);
+                foreach (edge e in polygon_edges)
+                    e.sub_rotateY(angle);
             }
 
             public void rotateZ(double angle)
             {
-                foreach (polygon p in lp)
-                    foreach (edge e in polygon_edges)
-                        e.sub_rotateZ(angle);
+                foreach (edge e in polygon_edges)
+                    e.sub_rotateZ(angle);
             }
 
             public void scale(double sx, double sy, double sz)
             {
-                foreach (polygon p in lp)
-                    foreach (edge e in polygon_edges)
-                        e.sub_scale(sx, sy, sz);
+                foreach (edge e in polygon_edges)
+                    e.sub_scale(sx, sy, sz);
             }
         }
 
@@ -322,12 +315,12 @@ namespace lab6
             point3d p3 = new point3d(0, (int)-h / 2, (int)h / 2);
             point3d p4 = new point3d(0, (int)h / 2, 0);
             
-            edge e1 = new edge(g, pb, p1, p2);
-            edge e2 = new edge(g, pb, p2, p3);
-            edge e3 = new edge(g, pb, p3, p1);
-            edge e4 = new edge(g, pb, p1, p4);
-            edge e5 = new edge(g, pb, p2, p4);
-            edge e6 = new edge(g, pb, p3, p4);
+            edge e1 = new edge(g, pb, ref p1, ref p2);
+            edge e2 = new edge(g, pb, ref p2, ref p3);
+            edge e3 = new edge(g, pb, ref p3, ref p1);
+            edge e4 = new edge(g, pb, ref p1, ref p4);
+            edge e5 = new edge(g, pb, ref p2, ref p4);
+            edge e6 = new edge(g, pb, ref p3, ref p4);
 
             polygon plg1 = new polygon();
             plg1.add(e1);
@@ -356,7 +349,7 @@ namespace lab6
             res.add(plg4);
             return res;
         }
-        
+
         static polyhedron hexahedron(Graphics g, PictureBox pb, int size)
         {
             point3d p1 = new point3d(-size / 2, -size / 2, -size / 2);
@@ -368,18 +361,18 @@ namespace lab6
             point3d p7 = new point3d(size / 2, size / 2, size / 2);
             point3d p8 = new point3d(-size / 2, size / 2, size / 2);
 
-            edge e1 = new edge(g, pb, p1, p2);
-            edge e2 = new edge(g, pb, p2, p3);
-            edge e3 = new edge(g, pb, p3, p4);
-            edge e4 = new edge(g, pb, p1, p4);
-            edge e5 = new edge(g, pb, p5, p6);
-            edge e6 = new edge(g, pb, p6, p7);
-            edge e7 = new edge(g, pb, p7, p8);
-            edge e8 = new edge(g, pb, p5, p8);
-            edge e9 = new edge(g, pb, p4, p8);
-            edge e10 = new edge(g, pb, p1, p5);
-            edge e11 = new edge(g, pb, p2, p6);
-            edge e12 = new edge(g, pb, p3, p7);
+            edge e1 = new edge(g, pb, ref p1, ref p2);
+            edge e2 = new edge(g, pb, ref p2, ref p3);
+            edge e3 = new edge(g, pb, ref p3, ref p4);
+            edge e4 = new edge(g, pb, ref p1, ref p4);
+            edge e5 = new edge(g, pb, ref p5, ref p6);
+            edge e6 = new edge(g, pb, ref p6, ref p7);
+            edge e7 = new edge(g, pb, ref p7, ref p8);
+            edge e8 = new edge(g, pb, ref p5, ref p8);
+            edge e9 = new edge(g, pb, ref p4, ref p8);
+            edge e10 = new edge(g, pb, ref p1, ref p5);
+            edge e11 = new edge(g, pb, ref p2, ref p6);
+            edge e12 = new edge(g, pb, ref p3, ref p7);
 
             polygon plg1 = new polygon();
             plg1.add(e1);
@@ -436,18 +429,18 @@ namespace lab6
             point3d p5 = new point3d(0, size / 2, 0);
             point3d p6 = new point3d(0, -size / 2, 0);
 
-            edge e1 = new edge(g, pb, p1, p2);
-            edge e2 = new edge(g, pb, p2, p3);
-            edge e3 = new edge(g, pb, p3, p4);
-            edge e4 = new edge(g, pb, p1, p4);
-            edge e5 = new edge(g, pb, p1, p5);
-            edge e6 = new edge(g, pb, p2, p5);
-            edge e7 = new edge(g, pb, p3, p5);
-            edge e8 = new edge(g, pb, p4, p5);
-            edge e9 = new edge(g, pb, p1, p6);
-            edge e10 = new edge(g, pb, p2, p6);
-            edge e11 = new edge(g, pb, p3, p6);
-            edge e12 = new edge(g, pb, p4, p6);
+            edge e1 = new edge(g, pb, ref p1, ref p2);
+            edge e2 = new edge(g, pb, ref p2, ref p3);
+            edge e3 = new edge(g, pb, ref p3, ref p4);
+            edge e4 = new edge(g, pb, ref p1, ref p4);
+            edge e5 = new edge(g, pb, ref p1, ref p5);
+            edge e6 = new edge(g, pb, ref p2, ref p5);
+            edge e7 = new edge(g, pb, ref p3, ref p5);
+            edge e8 = new edge(g, pb, ref p4, ref p5);
+            edge e9 = new edge(g, pb, ref p1, ref p6);
+            edge e10 = new edge(g, pb, ref p2, ref p6);
+            edge e11 = new edge(g, pb, ref p3, ref p6);
+            edge e12 = new edge(g, pb, ref p4, ref p6);
 
             polygon plg1 = new polygon();
             plg1.add(e1);
@@ -500,7 +493,7 @@ namespace lab6
             res.add(plg8);
             return res;
         }
-        
+
         // в будущем здесь будут икосаэдр и додекаэдр
 
         static List<double> mats_mult(List<double> prev_cords, List<List<double>> aff_mat)
@@ -567,7 +560,7 @@ namespace lab6
         private void button1_MouseClick(object sender, MouseEventArgs e)
         {
             int tx, ty, tz;
-            if (int.TryParse(textBox1.Text, out tx) && int.TryParse(textBox2.Text, out ty) && int.TryParse(textBox3.Text, out tz))
+            if (int.TryParse(textBox1.Text, out tx) && int.TryParse(textBox2.Text, out ty) && int.TryParse(textBox3.Text, out tz)) // сделать так, чтобы было не обязательно вводить значения во все поля
             {
                 phdrn.translate(tx, ty, tz);
                 g.Clear(Color.White);
@@ -581,13 +574,13 @@ namespace lab6
             int angle;
 
             if (int.TryParse(textBox4.Text, out angle))
-                phdrn.rotateX(angle);
+                phdrn.rotateX(angle * Math.PI / 180); // перевод в радианы
 
             if (int.TryParse(textBox5.Text, out angle))
-                phdrn.rotateY(angle);
+                phdrn.rotateY(angle * Math.PI / 180);
 
             if (int.TryParse(textBox6.Text, out angle))
-                phdrn.rotateZ(angle);
+                phdrn.rotateZ(angle * Math.PI / 180);
 
             g.Clear(Color.White);
             phdrn.draw();
@@ -597,7 +590,7 @@ namespace lab6
         private void button3_MouseClick(object sender, MouseEventArgs e)
         {
             double mx, my, mz;
-            if (double.TryParse(textBox7.Text, out mx) && double.TryParse(textBox8.Text, out my) && double.TryParse(textBox9.Text, out mz))
+            if (double.TryParse(textBox7.Text, out mx) && double.TryParse(textBox8.Text, out my) && double.TryParse(textBox9.Text, out mz)) // сделать так, чтобы было не обязательно вводить значения во все поля
             {
                 phdrn.scale(mx, my, mz);
                 g.Clear(Color.White);
