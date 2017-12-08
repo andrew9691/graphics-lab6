@@ -54,10 +54,13 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.button4 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
+			this.groupBox4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// pictureBox1
@@ -316,11 +319,33 @@
 			this.label7.TabIndex = 0;
 			this.label7.Text = "OX";
 			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.button4);
+			this.groupBox4.Location = new System.Drawing.Point(931, 231);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(156, 177);
+			this.groupBox4.TabIndex = 6;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Отразить по:";
+			// 
+			// button4
+			// 
+			this.button4.Enabled = false;
+			this.button4.Location = new System.Drawing.Point(6, 27);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(144, 30);
+			this.button4.TabIndex = 0;
+			this.button4.Text = "OX";
+			this.button4.UseVisualStyleBackColor = true;
+			this.button4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button4_MouseClick);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1105, 636);
+			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
@@ -335,6 +360,7 @@
 			this.groupBox2.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
+			this.groupBox4.ResumeLayout(false);
 			this.ResumeLayout(false);
 
         }
@@ -367,6 +393,8 @@
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.TextBox textBox7;
-    }
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Button button4;
+	}
 }
 

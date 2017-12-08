@@ -34,7 +34,7 @@ namespace lab6
                 return (point3d)this.MemberwiseClone();
             }
 
-			public static bool operator ==(point3d p1, point3d p2) // будет ли работать без eps?
+			public static bool operator ==(point3d p1, point3d p2)
 			{
 				return p1.X == p2.X && p1.Y == p2.Y && p1.Z == p2.Z;
 			}
@@ -49,12 +49,12 @@ namespace lab6
         {
             Graphics g;
             PictureBox pb;
-            private point3d p1, p2;
+            public point3d p1, p2;
 
             public edge(Graphics g, PictureBox pb, ref point3d p1, ref point3d p2)
             {
-                this.p1 = p1; // p1.clone();
-                this.p2 = p2; // p2.clone();
+                this.p1 = p1;
+                this.p2 = p2;
                 this.g = g;
                 this.pb = pb;
             }
@@ -200,34 +200,34 @@ namespace lab6
                 p2.Z = p2_new_cords[2];
             }
 
-            public void sub_scale(double sx, double sy, double sz)
-            {
-                // Getting identity matrix
-                List<List<double>> scale_mat = new List<List<double>>(4);
-                for (int i = 0; i < 4; i++)
-                    scale_mat.Add(new List<double>(4));
-                for (int i = 0; i < 4; i++)
-                    for (int j = 0; j < 4; j++)
-                        if (i == j)
-                            scale_mat[i].Add(1);
-                        else
-                            scale_mat[i].Add(0);
+			public void sub_scale(double sx, double sy, double sz)
+			{
+				// Getting identity matrix
+				List<List<double>> scale_mat = new List<List<double>>(4);
+				for (int i = 0; i < 4; i++)
+					scale_mat.Add(new List<double>(4));
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 4; j++)
+						if (i == j)
+							scale_mat[i].Add(1);
+						else
+							scale_mat[i].Add(0);
 
-                scale_mat[0][0] = sx;
-                scale_mat[1][1] = sy;
-                scale_mat[2][2] = sz;
+				scale_mat[0][0] = sx;
+				scale_mat[1][1] = sy;
+				scale_mat[2][2] = sz;
 
-                List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, scale_mat);
-                List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, scale_mat);
+				List<double> p1_new_cords = mats_mult(new List<double> { p1.X, p1.Y, p1.Z, 1 }, scale_mat);
+				List<double> p2_new_cords = mats_mult(new List<double> { p2.X, p2.Y, p2.Z, 1 }, scale_mat);
 
-                p1.X = p1_new_cords[0];
-                p1.Y = p1_new_cords[1];
-                p1.Z = p1_new_cords[2];
-                p2.X = p2_new_cords[0];
-                p2.Y = p2_new_cords[1];
-                p2.Z = p2_new_cords[2];
-            }
-        }
+				p1.X = p1_new_cords[0];
+				p1.Y = p1_new_cords[1];
+				p1.Z = p1_new_cords[2];
+				p2.X = p2_new_cords[0];
+				p2.Y = p2_new_cords[1];
+				p2.Z = p2_new_cords[2];
+			}
+		}
 
 		class polygon
         {
@@ -301,9 +301,26 @@ namespace lab6
 
             public void scale(double sx, double sy, double sz)
             {
-                foreach (edge e in polygon_edges)
-                    e.sub_scale(sx, sy, sz);
-            }
+				foreach (edge e in polygon_edges)
+					e.sub_scale(sx, sy, sz);
+			}
+
+			public void reflectX()
+			{
+				List<point3d> unique_pts = new List<point3d>();
+				foreach (edge e in polygon_edges)
+				{
+					ref point3d p1 = ref e.p1;
+					ref point3d p2 = ref e.p2;
+					if (!unique_pts.Contains(p1))
+						unique_pts.Add(p1);
+					if (!unique_pts.Contains(p2))
+						unique_pts.Add(p2);
+				}
+
+				foreach (point3d p in unique_pts)
+					p.X *= -1;
+			}
         }
 
         static polyhedron tetrahedron(Graphics g, PictureBox pb, int size)
@@ -534,6 +551,7 @@ namespace lab6
             button1.Enabled = true;
             button2.Enabled = true;
             button3.Enabled = true;
+			button4.Enabled = true;
             textBox1.Enabled = true;
             textBox2.Enabled = true;
             textBox3.Enabled = true;
@@ -592,11 +610,34 @@ namespace lab6
             double mx, my, mz;
             if (double.TryParse(textBox7.Text, out mx) && double.TryParse(textBox8.Text, out my) && double.TryParse(textBox9.Text, out mz)) // сделать так, чтобы было не обязательно вводить значения во все поля
             {
-                phdrn.scale(mx, my, mz);
+				if (mx < 1)
+					mx += mx * 0.5;
+				else if (mx > 1)
+					mx -= mx * 0.375;
+
+				if (my < 1)
+					my += my * 0.5;
+				else if (my > 1)
+					my -= my * 0.375;
+
+				if (mz < 1)
+					mz += mz * 0.5;
+				else if (mz > 1)
+					mz -= mz * 0.375;
+
+				phdrn.scale(mx, my, mz);
                 g.Clear(Color.White);
                 phdrn.draw();
                 pictureBox1.Invalidate();
             }
         }
+
+		private void button4_MouseClick(object sender, MouseEventArgs e)
+		{
+			phdrn.reflectX();
+			g.Clear(Color.White);
+			phdrn.draw();
+			pictureBox1.Invalidate();
+		}
 	}
 }
